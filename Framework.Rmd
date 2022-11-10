@@ -1,0 +1,64 @@
+---
+title: "Uso del rBLAST para el alineado y comparación de secuencias de bacterias"
+author: "Antonio"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Título:
+
+### Uso del paquete rBLAST para el alineado de secuencias
+
+### Instrucciones de uso
+
+1.  Debe instalarse el algoritmo del blast de la página del NCBI. Puede descargarse en el siguiente enlance: [<https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download>]
+
+2.  Debe descargar la base de datos de interés, en este caso se van a realizar consultas para bacterias (16S) pero se puede consultar cualquier base de datos de interés. La base de datos fue descargada usando la siguiente dirección: [https://ftp.ncbi.nlm.nih.gov/blast/db/] o mediante el código: 
+```{r}
+download.file("https://ftp.ncbi.nlm.nih.gov/blast/db/16S_ribosomal_RNA.tar.gz",
+   "16S_ribosomal_RNA.tar.gz", mode='wb')
+```
+3.  Descargar el paquete rBLAST de GitHub. [<https://github.com/mhahsler/rBLAST>], para ello debe instalarse ciertas dependencias. En Windows debe instalarse Rtools, esta debe conincidir con la misma versión del lenguaje de R. Y posteriormente instalar el paquete devtools. Debe seguir los pasos correspondientes siguiendo la dirección:[https://www.r-project.org/nosvn/pandoc/devtools.html]
+```{r}
+#Cargar el paquete devtools
+library(devtools)
+#Instalar el paquete rblast mediante la librería devtools
+devtools::install_github("mhahsler/rBLAST")
+```
+ 4. En caso de no funcionar instalarlo del reposiorio: [https://mhahsler.r-universe.dev/ui#packages], usando el siguiente código.
+```{r}
+install.packages('rBLAST', repos = 'https://mhahsler.r-universe.dev')
+```
+ 5. Cargar el paquete rBLAST y definir el directorio de trabajo. Desplazar o descargar la base de datos de interés en el fichero de trabajo.
+```{r}
+library(rBLAST)
+setwd("C:/Users/anton/Documents/Bioinformatica/Bioinformatics")
+
+#download.file("https://ftp.ncbi.nlm.nih.gov/blast/db/16S_ribosomal_RNA.tar.gz",
+   #"16S_ribosomal_RNA.tar.gz", mode='wb')
+
+```
+ 6. Cargar la secuencia en formato FASTA a consultar, y guardarlos en una variable. Pero antes debe asegurarse que tipo de secuencia es ADN o ARN.
+```{r}
+library(rBLAST)
+seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
+                        package="rBLAST"))
+```
+7. Cargar la base de datos de consulta y guardarla en una variable.
+```{r}
+#nota por alguna razon no funciona usando un Rmd pero si en un archivo .R
+library(rBLAST)
+setwd("~/Bioinformatica/Bioinformatics/New")
+bl <- blast(db="./16S_ribosomal_RNA")
+
+```
+8. Usar la funcion predict para realizar la consulta a la base de datos
+```{r}
+cl <- predict(bl, seq[1,])
+cl[1:5,]
+```
+
