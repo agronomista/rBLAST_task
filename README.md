@@ -11,14 +11,24 @@ download.file("https://ftp.ncbi.nlm.nih.gov/blast/db/16S_ribosomal_RNA.tar.gz",
 ```
 
 3.  Descargar el paquete rBLAST de GitHub. [<https://github.com/mhahsler/rBLAST>], para ello debe instalarse ciertas dependencias. En Windows debe instalarse Rtools, esta debe conincidir con la misma versión del lenguaje de R. Y posteriormente instalar el paquete devtools. Debe seguir los pasos correspondientes siguiendo la dirección:[https://www.r-project.org/nosvn/pandoc/devtools.html]
-![Image_text](https://github.com/agronomista/rBLAST_task/blob/main/img/second_line.png)
-
+```R
+#Cargar el paquete devtools
+library(devtools)
+#Instalar el paquete rblast mediante la librería devtools
+devtools::install_github("mhahsler/rBLAST")
+```
 4. En caso de no funcionar instalarlo del reposiorio: [https://mhahsler.r-universe.dev/ui#packages], usando el siguiente código.
-![Image_text](https://github.com/agronomista/rBLAST_task/blob/main/img/third_line.png)
+```R
+install.packages('rBLAST', repos = 'https://mhahsler.r-universe.dev')
+```
 
 5. Cargar el paquete rBLAST y definir el directorio de trabajo. Desplazar o descargar la base de datos de interés en el fichero de trabajo.
  
 6. Cargar la secuencia en formato FASTA a consultar, y guardarlos en una variable. Pero antes debe asegurarse que tipo de secuencia es ADN o ARN.
+```R
+seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
+                        package="rBLAST"))
+```
 
 7. Cargar la base de datos de consulta y guardarla en una variable.
 
