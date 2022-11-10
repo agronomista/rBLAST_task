@@ -31,7 +31,12 @@ seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
 ```
 
 7. Cargar la base de datos de consulta y guardarla en una variable.
-
+```R
+bl <- blast(db="./16S_ribosomal_RNA")
+```
 8. Usar la funcion predict para realizar la consulta a la base de datos
-
+```R
+cl <- predict(bl, seq[1,])
+cl[1:5,]
+```
 
